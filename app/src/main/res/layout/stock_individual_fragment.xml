@@ -86,6 +86,11 @@
     <ListView
         android:id="@+id/stock_individual_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="20dp"
+        android:divider="@color/grey"
+        android:dividerHeight="10dp"/>
 
 </LinearLayout>

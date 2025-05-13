@@ -465,7 +465,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@drawable/generate_add_button"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/baseline_add_circle_50_primary"
             android:layout_alignParentRight="true"/>
         <Button
             android:id="@+id/bill_generate_btn"
@@ -473,10 +474,12 @@
             android:layout_height="wrap_content"
             android:text="@string/generate"
             android:paddingBottom="10dp"
+            android:layout_toStartOf="@+id/bill_generate_add_order_imgbtn"
             android:textColor="@color/white"
             android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/generate_button_bg"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/bg_screen_shape_roundness"/>
 
     </RelativeLayout>
 

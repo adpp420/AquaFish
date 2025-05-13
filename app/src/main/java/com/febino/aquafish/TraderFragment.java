@@ -73,7 +73,8 @@ public class TraderFragment extends Fragment {
         TraderAdapter traderAdapter = new TraderAdapter(traderDetailsArrayList, getContext());
         ListView traderListView = (ListView) view.findViewById(R.id.trader_list_view);
         traderListView.setAdapter(traderAdapter);
-        traderListView.setDivider(null);
+//        traderListView.setDivider(null);
+
 
         traderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

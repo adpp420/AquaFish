@@ -149,12 +149,12 @@
             <Button
                 android:id="@+id/stock_dialog_ok_btn"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textSize="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ok_btn_bg"
+                android:background="@drawable/bg_screen_shape_roundness"
                 android:textColor="@color/white"
                 android:paddingBottom="10dp"
                 android:text="@string/ok_btn_text"/>

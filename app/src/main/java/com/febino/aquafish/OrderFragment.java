@@ -215,16 +215,16 @@ public class OrderFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void selectTableTab(){
-        tableTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.order_tab_table_bg_selected));
-        listTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.order_tab_list_bg_unselected));
+        tableTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.bg_tab_start_selected_shape_roundness));
+        listTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.bg_tab_end_unselected_shape_roundness));
         tableTabBtn.setTextColor(getContext().getResources().getColor(R.color.white));
         listTabBtn.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void selectListTab(){
-        tableTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.order_tab_table_bg_unselected));
-        listTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.order_tab_list_bg_selected));
+        tableTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.bg_tab_start_unselected_shape_roundness));
+        listTabBtn.setBackground(getContext().getResources().getDrawable(R.drawable.bg_tab_end_selected_shape_roundness));
         tableTabBtn.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
         listTabBtn.setTextColor(getContext().getResources().getColor(R.color.white));
     }

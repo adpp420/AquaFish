@@ -51,7 +51,7 @@ public class StockIndividualFragment extends Fragment {
 
         breedListView = view.findViewById(R.id.stock_individual_listview);
         breedListView.setAdapter(stockIndividualListViewAdapter);
-        breedListView.setDivider(null);
+//        breedListView.setDivider(null);
 
         breedListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

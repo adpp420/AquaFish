@@ -59,13 +59,8 @@ public class BillViewActivity extends AppCompatActivity {
     DecimalFormat decimalFormat;
     TraderDetails traderDetails;
     ArrayList<OrderDetails> orderDetailsArrayList;
-
-
     ImageButton backImageBtn, printImageBtn, shareImageBtn, editImageBtn;
-
     private View billViewActivity;
-    private LinearLayout billViewLayout;
-
     long billID = 0;
 
     @Override
@@ -111,7 +106,6 @@ public class BillViewActivity extends AppCompatActivity {
         printImageBtn = findViewById(R.id.bill_view_print_img_btn);
         shareImageBtn = findViewById(R.id.bill_view_share_img_btn);
         editImageBtn = findViewById(R.id.bill_view_edit_img_btn);
-
 
         traderNameText = findViewById(R.id.bill_view_name_textview);
         traderIDText = findViewById(R.id.bill_view_trader_id_textview);

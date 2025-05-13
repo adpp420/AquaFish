@@ -90,7 +90,7 @@
             android:layout_marginEnd="30dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/add_toggle" />
+            android:background="@drawable/baseline_add_circle_50" />
     </RelativeLayout>
 
 

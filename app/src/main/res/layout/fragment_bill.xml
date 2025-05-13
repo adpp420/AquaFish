@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/bill_generate_tab_btn"
-                android:background="@drawable/order_tab_table_bg_selected"
+                android:background="@drawable/bg_tab_start_selected_shape_roundness"
                 android:text="@string/generate"
                 android:textColor="@color/white"/>
         </RelativeLayout>
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/bill_list_tab_btn"
-                android:background="@drawable/order_tab_list_bg_unselected"
+                android:background="@drawable/bg_tab_end_unselected_shape_roundness"
                 android:text="@string/list"
                 android:textColor="@color/colorPrimary"/>
         </RelativeLayout>
