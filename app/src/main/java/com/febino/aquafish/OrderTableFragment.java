@@ -143,7 +143,7 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
 //        orderDetailsArrayListArray = copyCursor.copyArrayOfOrderListFromCursor(dataBaseManager.getOrderFromOrderTableWithDateAndOrderBy("2024-04-04"),traderDetailsArrayList.size(),productDetailsArrayList.size());
         orderDetailsArrayListArray = copyCursor.copyArrayOfOrderListFromCursor(dataBaseManager.getOrderFromOrderTableWithDateAndOrderBy(selectedDate),traderDetailsArrayList,productDetailsArrayList);
 
-        totalOrderByProductArray = copyCursor.copyOrderListFromCursor(dataBaseManager.getOrderTotalByProduct(selectedDate));
+
 
 //        int count = 0;
 //        for(int i = 0;i<orderDetailsArrayListArray.size();i++){
@@ -197,6 +197,7 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
         for(int i=0; i<traderDetailsArrayList.size(); i++){
             initializeRowForTableD(i);
             addRowToTableC(traderDetailsArrayList.get(i).name);
+
             for(int j=0; j<productDetailsArrayList.size(); j++){
                 ProductDetails currentProduct = productDetailsArrayList.get(j);
                 TraderDetails currentTrader = traderDetailsArrayList.get(i);
@@ -224,6 +225,17 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
         }
 
         addRowToTableE();
+        updateTableFLayout();
+
+
+//        for(int i=0; i<10; i++){
+//            addColumnsToTableF("Total" + i, i);
+//        }
+    }
+
+    private void updateTableFLayout() {
+
+        totalOrderByProductArray = copyCursor.copyOrderListFromCursor(dataBaseManager.getOrderTotalByProduct(selectedDate));
 
         initializeRowForTableF();
 
@@ -237,16 +249,13 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                 }
             }
             addColumnsToTableF(totalBoxAndKg, i);
-
         }
+
         if(totalOrderByProductArray.size() < 5){
             for(int i = totalOrderByProductArray.size(); i < 5; i++){
                 addColumnsToTableF("",i);
             }
         }
-//        for(int i=0; i<10; i++){
-//            addColumnsToTableF("Total" + i, i);
-//        }
     }
 
 
@@ -516,32 +525,33 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
         this.tableLayoutD.addView(tableRowB, pos);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private synchronized void addColumnToTableAtD(final int rowPos, String text,boolean isClickListenerSet, long traderID, long productID,OrderDetails currentOrderDetails){
+    private synchronized void updateColumntToTableAtD(final int rowPos, String text, boolean isClickListenerSet, long traderID, long productID, OrderDetails currentOrderDetails){
 
-//        final long traderIDRow = traderID;
-//        final long productIDColumn = productID;
+        int cellIndex = -1;
+        for(int i=0; i<productDetailsArrayList.size(); i++){
+            if (productDetailsArrayList.get(i)._id == productID) {
+                cellIndex = i;
+                break;
+            }
+        }
 
-        TableRow tableRowAdd= (TableRow) this.tableLayoutD.getChildAt(rowPos);
-        tableRow= new TableRow(getContext());
-        TableRow.LayoutParams layoutParamsTableRow= new TableRow.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
-        tableRow.setPadding(3,3,3,4);
-        tableRow.setBackground(getResources().getDrawable(R.drawable.cell_bacground));
-        tableRow.setLayoutParams(layoutParamsTableRow);
-        TextView label_date = new TextView(getContext());
+        TableRow tableRowToUpdate = (TableRow) tableLayoutD.getChildAt(rowPos);
+        TableRow cellToUpdate = (TableRow) tableRowToUpdate.getVirtualChildAt(cellIndex);
+
+        if (cellIndex == -1 || cellToUpdate == null) {
+            Toast.makeText(getContext(), "No product found for this order", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TextView label_date = (TextView) cellToUpdate.getTag();
         label_date.setText(text);
         label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
         label_date.setPadding(20,0,0,0);
-        tableRow.setTag(label_date);
-        this.tableRow.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL);
-        this.tableRow.addView(label_date);
+        cellToUpdate.setTag(label_date);
 
-        tableRow.setOnClickListener(new View.OnClickListener() {
+        cellToUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                OrderDetails orderDetails = dataBaseManager
-
 
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -663,6 +673,7 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                             currentOrderDetails.setKgPerBox(Float.parseFloat(orderKGPerBoxString));
                             dataBaseManager.updateOrderInOrderTable(currentOrderDetails);
                             Toast.makeText(getContext(),R.string.order_updated,Toast.LENGTH_LONG).show();
+                            updateColumntToTableAtD(rowPos, currentOrderDetails.getTotalBox() + " aaBox \n"+ currentOrderDetails.getTotalKG() +" Kgs",true,traderID,productID,currentOrderDetails);
                         }else{
                             orderDetails.setOrderDate(dialogOrderDate.getText().toString());
                             orderDetails.setProductID(productID);
@@ -675,14 +686,197 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                             long savedID = dataBaseManager.addOrderInOrderTableReturnID(orderDetails);
                             orderDetails.set_id(savedID);
                             Toast.makeText(getContext(),R.string.order_saved,Toast.LENGTH_LONG).show();
+                            updateColumntToTableAtD(rowPos, orderDetails.getTotalBox() + " Box \n"+ orderDetails.getTotalKG() +" Kgs",true,traderID,productID,orderDetails);
                         }
 
 
 
-//                        orderDetailsArrayListArray = copyCursor.copyArrayOfOrderListFromCursor(dataBaseManager.getOrderFromOrderTableWithDateAndOrderBy("2024-04-18"),traderDetailsArrayList,productDetailsArrayList);
+
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialog.dismiss();
+
+                    }
+                });
 
 
-                        getFragmentManager().beginTransaction().detach(currentFragment).attach(currentFragment).commit();
+                bottomSheetDialog.setContentView(v);
+                bottomSheetDialog.show();
+//                Toast.makeText(getContext(),tempText,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        if(!isClickListenerSet) cellToUpdate.setOnClickListener(null);
+
+        updateTableFLayout();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private synchronized void addColumnToTableAtD(final int rowPos, String text,boolean isClickListenerSet, final long traderID, final long productID,OrderDetails currentOrderDetails){
+
+//        final long traderIDRow = traderID;
+//        final long productIDColumn = productID;
+
+        TableRow tableRowAdd= (TableRow) this.tableLayoutD.getChildAt(rowPos);
+        tableRow= new TableRow(getContext());
+        TableRow.LayoutParams layoutParamsTableRow= new TableRow.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
+        tableRow.setPadding(3,3,3,4);
+        tableRow.setBackground(getResources().getDrawable(R.drawable.cell_bacground));
+        tableRow.setLayoutParams(layoutParamsTableRow);
+        TextView label_date = new TextView(getContext());
+        label_date.setText(text);
+        label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
+        label_date.setPadding(20,0,0,0);
+        tableRow.setTag(label_date);
+        this.tableRow.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL);
+        this.tableRow.addView(label_date);
+
+        tableRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = inflater.inflate(R.layout.dialog_order_details, null);
+
+                OrderDetails orderDetails = new OrderDetails();
+
+
+                TextView alertMessage = v.findViewById(R.id.dialog_order_message_txt);
+
+                EditText dialogOrderName = v.findViewById(R.id.order_name_edit);
+                EditText dialogOrderProduct = v.findViewById(R.id.order_item_edit);
+                EditText dialogOrderDate = v.findViewById(R.id.order_date_edit);
+                EditText dialogOrderBox = v.findViewById(R.id.order_box_edit);
+                EditText dialogOrderKgs = v.findViewById(R.id.order_kgs_edit);
+                EditText dialogOrderRate = v.findViewById(R.id.order_rate_edit);
+
+                ImageButton dialogOrderDeleteBtn = v.findViewById(R.id.dialog_add_order_delete_img_btn);
+
+                Button okBtn = v.findViewById(R.id.order_dialog_ok_btn);
+                Button cancelBtn = v.findViewById(R.id.order_dialog_cancel_btn);
+
+
+                TraderDetails traderDetailsfinal = new CopyCursor().copyTraderFromCursor(dataBaseManager.getTraderInTraderTableByID(traderID));
+                ProductDetails productDetailsfinal = new CopyCursor().copyProductFromCursor(dataBaseManager.getProductFromProductTableByID(productID));
+
+                dialogOrderDeleteBtn.setVisibility(View.GONE);
+
+
+                if (traderID != 0 || productID != 0) {
+                    dialogOrderName.setText(""+traderDetailsfinal.name);
+                    dialogOrderProduct.setText(""+productDetailsfinal.productName);
+                }
+
+                if(currentOrderDetails != null){
+                    dialogOrderBox.setText("" + currentOrderDetails.getTotalBox());
+                    dialogOrderKgs.setText(""+currentOrderDetails.getTotalKG());
+                    dialogOrderRate.setText(""+currentOrderDetails.getRatePerKG());
+                    dialogOrderDeleteBtn.setVisibility(View.VISIBLE);
+                }
+
+                dialogOrderDate.setText(selectedDate);
+
+
+                if (currentOrderDetails != null && (currentOrderDetails.isBilled() || currentOrderDetails.getBillID() > 0)) {
+                    BillDetails billDetails = copyCursor.copyBillFromCursor(dataBaseManager.getBillFromBillTableByID(currentOrderDetails.getBillID()));
+                    String alertMessageString = getResources().getString(R.string.order_added_to_bill) +  billDetails.getBillNo() + " on " + billDetails.getBillDate();
+
+                    alertMessage.setText(alertMessageString);
+
+                    dialogOrderBox.setFocusable(false);
+                    dialogOrderKgs.setFocusable(false);
+                    dialogOrderRate.setFocusable(false);
+
+                    alertMessage.setVisibility(View.VISIBLE);
+                    okBtn.setVisibility(View.GONE);
+                    dialogOrderDeleteBtn.setVisibility(View.GONE);
+                }
+
+                dialogOrderDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getContext());
+
+                        deleteDialog.setTitle("Delete Order");
+
+                        TextView messageText = new TextView(getContext());
+
+                        messageText.setText("Are you sure want to delete order?");
+                        messageText.setPadding(50,50,10,20);
+
+                        deleteDialog.setView(messageText);
+
+                        deleteDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dataBaseManager.deleteOrderByID(currentOrderDetails.get_id());
+                                Toast.makeText(getContext(), "Order Deleted", Toast.LENGTH_SHORT).show();
+                                bottomSheetDialog.dismiss();
+//                                getFragmentManager().beginTransaction().detach(currentFragment).attach(currentFragment).commit();
+                                updateColumntToTableAtD(rowPos, "",true,traderID,productID,null);
+                            }
+                        });
+
+                        deleteDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+
+                        deleteDialog.show();
+                    }
+                });
+
+
+
+
+                okBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String orderBoxString = dialogOrderBox.getText().toString();
+                        String orderKGString = dialogOrderKgs.getText().toString();
+                        String orderRateString = dialogOrderRate.getText().toString();
+                        String orderKGPerBoxString = "35.0"; //TODO: add 35kg/box in the settings page
+                        String errorMessage = ValidateDetails.ValidateOrderDetails(getContext(),orderBoxString, orderKGString, orderRateString);
+
+                        if (errorMessage != null) {
+                            Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        if(currentOrderDetails !=null){
+                            currentOrderDetails.setTotalBox(Integer.parseInt(orderBoxString));
+                            currentOrderDetails.setTotalKG(Float.parseFloat(orderKGString));
+                            currentOrderDetails.setRatePerKG(Float.parseFloat(orderRateString));
+                            currentOrderDetails.setKgPerBox(Float.parseFloat(orderKGPerBoxString));
+                            dataBaseManager.updateOrderInOrderTable(currentOrderDetails);
+                            Toast.makeText(getContext(),R.string.order_updated,Toast.LENGTH_LONG).show();
+                            updateColumntToTableAtD(rowPos, currentOrderDetails.getTotalBox() + " Box \n"+ currentOrderDetails.getTotalKG() +" Kgs",true,traderID,productID,currentOrderDetails);
+                        }else{
+                            orderDetails.setOrderDate(dialogOrderDate.getText().toString());
+                            orderDetails.setProductID(productID);
+                            orderDetails.setTraderID(traderID);
+                            orderDetails.setTotalBox(Integer.parseInt(orderBoxString));
+                            orderDetails.setTotalKG(Float.parseFloat(orderKGString));
+                            orderDetails.setRatePerKG(Float.parseFloat(orderRateString));
+                            orderDetails.setKgPerBox(Float.parseFloat(orderKGPerBoxString));
+
+                            long savedID = dataBaseManager.addOrderInOrderTableReturnID(orderDetails);
+                            orderDetails.set_id(savedID);
+                            Toast.makeText(getContext(),R.string.order_saved,Toast.LENGTH_LONG).show();
+                            updateColumntToTableAtD(rowPos, orderDetails.getTotalBox() + " Box \n"+ orderDetails.getTotalKG() +" Kgs",true,traderID,productID,orderDetails);
+                        }
 
 
 
@@ -725,9 +919,11 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
     }
 
     private void initializeRowForTableF(){
+        this.tableLayoutF.removeAllViews();
         tableRowF= new TableRow(getContext());
         tableRowF.setPadding(0,0,0,0);
         this.tableLayoutF.addView(tableRowF);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
