@@ -5,9 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.febino.DatabaseManager.CopyCursor;
 import com.febino.DatabaseManager.DataBaseManager;
@@ -96,6 +102,12 @@ public class BillGenerator {
         shareImage(targetFolder);
     }
 
+    public void share(ListView listView) {
+        billScreenShotBitMap = getFullViewScreenShot(billView, listView);
+        store(billScreenShotBitMap);
+        shareImage(targetFolder);
+    }
+
     public void shareImage(File file){
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -111,6 +123,68 @@ public class BillGenerator {
         shareIntentFile.putExtra(Intent.EXTRA_TEXT, "Sharing File " + file.getName());
         context.startActivity(Intent.createChooser(shareIntentFile,"Share File"));
 
+    }
+
+    private Bitmap getFullViewScreenShot(View view, ListView listView) {
+        View screenView = view;
+
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//
+//        int screenWidth = displayMetrics.widthPixels;
+//        int screenHeight = displayMetrics.heightPixels;
+//
+//
+
+
+
+        ListAdapter adapter = listView.getAdapter();
+
+        if (adapter == null || adapter.getCount() == 0) return null;
+        int totalHeight = 0;
+
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, listView);
+            listItem.measure(
+                    View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.UNSPECIFIED
+            );
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        totalHeight = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+
+        int oldHeight = listView.getHeight();
+        int heightDifference = totalHeight - oldHeight;
+
+        int addHeight = totalHeight - oldHeight < 0 ? oldHeight : totalHeight;
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = addHeight;
+        listView.setLayoutParams(params);
+
+
+        screenView.measure(
+                View.MeasureSpec.makeMeasureSpec(screenView.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        );
+        screenView.layout(0, 0, screenView.getMeasuredWidth(), screenView.getMeasuredHeight());
+//
+//        Log.i("old List Height", "" + oldHeight);
+//        Log.i("measured list Height", "" + totalHeight);
+//        Log.i("Difference Height", "" + heightDifference);
+//        Log.i("old Scree Height", "" + screenView.getMeasuredHeight());
+//        Log.i("new Scree Height", "" + (screenView.getMeasuredHeight()+heightDifference));
+//
+//        Log.i("Actual Screen Width", "" + screenWidth);
+//        Log.i("Actual Screen Height", "" + screenHeight);
+
+
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getMeasuredWidth(), screenView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        screenView.draw(canvas);
+
+        return bitmap;
     }
 
     private static Bitmap getScreenShot(View view) {

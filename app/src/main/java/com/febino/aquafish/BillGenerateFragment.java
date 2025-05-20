@@ -19,6 +19,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +37,7 @@ import com.febino.dataclass.TraderDetails;
 import com.febino.dependencies.PdfGenerator;
 import com.febino.dependencies.ProjectUtils;
 import com.febino.validation.ValidateDetails;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.DecimalFormat;
@@ -204,6 +206,18 @@ public class BillGenerateFragment extends Fragment {
                 LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = layoutInflater.inflate(R.layout.bill_trader_adapter_view, null);
 
+                bottomSheetDialog.setContentView(v);
+
+
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
+
+
                 BillTraderSelectAdapter billTraderSelectAdapter = new BillTraderSelectAdapter(traderDetailsArrayList,getContext());
                 ListView traderList = v.findViewById(R.id.bill_trader_select_list);
                 traderList.setAdapter(billTraderSelectAdapter);
@@ -254,7 +268,7 @@ public class BillGenerateFragment extends Fragment {
                 });
 
 
-                bottomSheetDialog.setContentView(v);
+
                 bottomSheetDialog.show();
 
             }
@@ -297,6 +311,17 @@ public class BillGenerateFragment extends Fragment {
 
                 LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = layoutInflater.inflate(R.layout.dialog_order_details, null);
+
+                bottomSheetDialog.setContentView(view);
+
+
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
 
                 OrderDetails orderDetails = selectedOrderArrayList.get(position);
                 ProductDetails productDetails = new CopyCursor().copyProductFromCursor(db.getProductFromProductTableByID(orderDetails.getProductID()));
@@ -365,7 +390,7 @@ public class BillGenerateFragment extends Fragment {
                     }
                 });
 
-                bottomSheetDialog.setContentView(view);
+
                 bottomSheetDialog.show();
 //                return false;
             }
@@ -518,6 +543,16 @@ public class BillGenerateFragment extends Fragment {
 
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = inflater.inflate(R.layout.dialog_bill_add_order_details, null);
+
+                bottomSheetDialog.setContentView(v);
+
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
 
                 DataBaseManager db = new DataBaseManager(getContext());
                 CopyCursor cc = new CopyCursor();
@@ -819,7 +854,7 @@ public class BillGenerateFragment extends Fragment {
                     }
                 });
 
-                bottomSheetDialog.setContentView(v);
+
                 bottomSheetDialog.show();
 
             }

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.febino.DatabaseManager.CopyCursor;
 import com.febino.DatabaseManager.DataBaseManager;
 import com.febino.aquafish.R;
 import com.febino.dataclass.TraderDetails;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -86,6 +88,18 @@ public class TraderFragment extends Fragment {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = inflater.inflate(R.layout.dialog_trader_detail, null);
+
+                bottomSheetDialog.setContentView(v);
+
+//
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
+
+                bottomSheetDialog.show();
 
                 Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/unicode.futurab.ttf");
                 TextView dialogHeader = v.findViewById(R.id.trader_header_textview);
@@ -175,8 +189,7 @@ public class TraderFragment extends Fragment {
                 traderMobileEditText.setTypeface(font);
                 traderIDEditText.setTypeface(font);
 
-                bottomSheetDialog.setContentView(v);
-                bottomSheetDialog.show();
+
 
 //                Toast.makeText(getContext(), "Trader Name addition", Toast.LENGTH_SHORT).show();
             }
@@ -191,6 +204,14 @@ public class TraderFragment extends Fragment {
                 BottomSheetDialog warningDialogButtom = new BottomSheetDialog(view.getContext());
                 warningDialogButtom.setContentView(warningDialogLayout);
                 warningDialogButtom.show();
+
+
+//                FrameLayout bottomSheet = warningDialogButtom.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
 
 //                AlertDialog.Builder warningAlertDialogBuilder = new AlertDialog.Builder(view.getContext());
 //                warningAlertDialogBuilder.setView(warningDialogLayout);
@@ -231,6 +252,16 @@ public class TraderFragment extends Fragment {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = inflater.inflate(R.layout.dialog_trader_detail, null);
+
+
+                bottomSheetDialog.setContentView(v);
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
 
                 Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/unicode.futurab.ttf");
                 TextView dialogHeader = v.findViewById(R.id.trader_header_textview);
@@ -317,7 +348,7 @@ public class TraderFragment extends Fragment {
                 traderMobileEditText.setTypeface(font);
                 traderIDEditText.setTypeface(font);
 
-                bottomSheetDialog.setContentView(v);
+
                 bottomSheetDialog.show();
 
 //                Toast.makeText(getContext(), "Trader Name addition", Toast.LENGTH_SHORT).show();

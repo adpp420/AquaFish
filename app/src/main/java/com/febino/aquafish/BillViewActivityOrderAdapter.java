@@ -1,6 +1,7 @@
 package com.febino.aquafish;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class BillViewActivityOrderAdapter extends BaseAdapter implements ListAda
         oldDateString = currentDateString;
 
 //        date.setText(""+orderDetails.getOrderDate());
+//        Log.i("P-" + productDetails.productName, "" + productDetails.productName.length());
         breed.setText(""+productDetails.productName);
         box.setText(""+orderDetails.getTotalBox());
         kg.setText(""+orderDetails.getTotalKG());

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.febino.DatabaseManager.DataBaseManager;
 import com.febino.dataclass.ProductDetails;
 import com.febino.dataclass.StockDetails;
 import com.febino.dataclass.TraderDetails;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -61,6 +63,13 @@ public class StockIndividualFragment extends Fragment {
 
                 BottomSheetDialog warningDialogButtom = new BottomSheetDialog(view.getContext());
                 warningDialogButtom.setContentView(warningDialogLayout);
+//
+//                FrameLayout bottomSheet = warningDialogButtom.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                }
+
                 warningDialogButtom.show();
 
 //                AlertDialog.Builder warningAlertDialogBuilder = new AlertDialog.Builder(view.getContext());
@@ -109,6 +118,19 @@ public class StockIndividualFragment extends Fragment {
 
 
                 v = layoutInflater.inflate(R.layout.dialog_stock_breed_details, null);
+
+                bottomSheetDialog.setContentView(v);
+
+
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
+
+
                 EditText breedName = v.findViewById(R.id.stock_entry_name_edit);
                 EditText shortName = v.findViewById(R.id.stock_short_name_edit);
                 EditText description = v.findViewById(R.id.stock_entry_description_edit);
@@ -173,7 +195,7 @@ public class StockIndividualFragment extends Fragment {
                     }
                 });
 
-                bottomSheetDialog.setContentView(v);
+
                 bottomSheetDialog.show();
             }
         });

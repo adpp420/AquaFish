@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -30,6 +31,7 @@ import com.febino.dataclass.OrderDetails;
 import com.febino.dataclass.ProductDetails;
 import com.febino.dataclass.TraderDetails;
 import com.febino.validation.ValidateDetails;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.SimpleDateFormat;
@@ -557,6 +559,15 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = inflater.inflate(R.layout.dialog_order_details, null);
 
+                bottomSheetDialog.setContentView(v);
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
+
                 OrderDetails orderDetails = new OrderDetails();
 
 
@@ -705,7 +716,7 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                 });
 
 
-                bottomSheetDialog.setContentView(v);
+
                 bottomSheetDialog.show();
 //                Toast.makeText(getContext(),tempText,Toast.LENGTH_SHORT).show();
             }
@@ -744,6 +755,18 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = inflater.inflate(R.layout.dialog_order_details, null);
+
+
+                bottomSheetDialog.setContentView(v);
+
+
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
 
                 OrderDetails orderDetails = new OrderDetails();
 
@@ -893,7 +916,7 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
                 });
 
 
-                bottomSheetDialog.setContentView(v);
+
                 bottomSheetDialog.show();
 //                Toast.makeText(getContext(),tempText,Toast.LENGTH_SHORT).show();
             }

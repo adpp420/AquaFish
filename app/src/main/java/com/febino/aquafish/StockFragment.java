@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.febino.DatabaseManager.DataBaseManager;
 import com.febino.aquafish.R;
 import com.febino.dataclass.ProductDetails;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import androidx.annotation.RequiresApi;
@@ -102,6 +104,7 @@ public class StockFragment extends Fragment {
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
                 LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
                 int viewpagerID = viewPager.getCurrentItem();
                 if(viewpagerID == 0){
                     v = layoutInflater.inflate(R.layout.dialog_stock_breed_details, null);
@@ -171,8 +174,19 @@ public class StockFragment extends Fragment {
                     });
                 }else{
                     v = layoutInflater.inflate(R.layout.dialog_stock_entry_details, null);
+
+
                 }
+
+
                 bottomSheetDialog.setContentView(v);
+
+//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+//                if (bottomSheet != null) {
+//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+//                    behavior.setDraggable(false);
+//                    behavior.setHideable(false);
+//                }
                 bottomSheetDialog.show();
             }
         });

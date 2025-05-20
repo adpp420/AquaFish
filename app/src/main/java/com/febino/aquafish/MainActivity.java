@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -62,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TraderFragment()).commit();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.BLUETOOTH}, 1001);
+                return;
+            }
+        }
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/unicode.futurab.ttf");
@@ -79,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
         billFragment = new BillFragment();
         stockFragment = new StockFragment();
         settingFragment = new SettingFragment();
+
+        bottomNavigationView.setSelectedItemId(R.id.action_setting);
+        openFragment(settingFragment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

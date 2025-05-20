@@ -3,7 +3,13 @@ package com.febino.aquafish;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.fragment.app.FragmentTransaction;
+
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothSocket;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -11,11 +17,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,15 +38,19 @@ import com.febino.dataclass.TraderDetails;
 import com.febino.dependencies.BillGenerator;
 import com.febino.dependencies.PdfGenerator;
 import com.febino.dependencies.PdfGeneratorIText7;
+import com.febino.dependencies.Printer;
 import com.febino.dependencies.ProjectUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class BillViewActivity extends AppCompatActivity {
 
@@ -63,6 +76,22 @@ public class BillViewActivity extends AppCompatActivity {
     private View billViewActivity;
     long billID = 0;
 
+
+
+
+    String printerAddress = null;
+    BluetoothDevice device;
+    private BluetoothAdapter bluetoothAdapter;
+    BluetoothSocket btSocket = null;
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final int REQUEST_ENABLE_BT = 4;
+
+
+
+
+
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +115,21 @@ public class BillViewActivity extends AppCompatActivity {
 //            return;
         }
 
+        sharedPreferences = getSharedPreferences(MainActivity.APP_NAME, MODE_PRIVATE);
+
         db = new DataBaseManager(BillViewActivity.this);
         cc = new CopyCursor();
         decimalFormat = new DecimalFormat("0.0");
+
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        bluetoothAdapter = bluetoothManager.getAdapter();
+
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+
+        printerAddress = sharedPreferences.getString(SettingFragment.SELECTED_BLE_MAC_ADDRESS, "");
 
 
 
@@ -101,6 +142,7 @@ public class BillViewActivity extends AppCompatActivity {
         printBtn = findViewById(R.id.bill_view_print_btn);
         shareBtn = findViewById(R.id.bill_view_share_btn);
         backBtn = findViewById(R.id.bill_view_back_btn);
+
 
         backImageBtn = findViewById(R.id.bill_view_back_img_btn);
         printImageBtn = findViewById(R.id.bill_view_print_img_btn);
@@ -123,8 +165,6 @@ public class BillViewActivity extends AppCompatActivity {
 
 //        billNoEdit = findViewById(R.id.bill_view_billno_edit);
 //        billDateEdit = findViewById(R.id.bill_view_date_edit);
-
-
 
         traderNameText.setText(traderDetails.name);
         traderIDText.setText(traderDetails.trader_id);
@@ -161,8 +201,37 @@ public class BillViewActivity extends AppCompatActivity {
 //                pdfGenerator.shareBill();
 
                 BillGenerator billGenerator = new BillGenerator(BillViewActivity.this, billDetails,BillViewActivity.this, billViewActivity);
-                billGenerator.share();
+                billGenerator.share(billViewOrderListView);
 
+
+            }
+        });
+
+        printImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                printImageBtn.setEnabled(false);
+                if(printerAddress == null || printerAddress.equals("")){
+                    toastMessage("Please select Printer from Settings page");
+                    return;
+                }
+                toastMessage("Please Wait....Connecting to Printer");
+
+                Printer thermalPrinter = new Printer(getApplicationContext(), printerAddress);
+
+                thermalPrinter.printReceipt(db, billDetails, traderDetails, orderDetailsArrayList);
+
+
+//                thermalPrinter.printTest("This is test message");
+
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        printImageBtn.setEnabled(true);
+                    }
+                });
             }
         });
 
@@ -244,6 +313,17 @@ public class BillViewActivity extends AppCompatActivity {
 //            return null;  // Return null if parsing fails
 //        }
 //    }
+
+    private void toastMessage(final String message){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 
 }

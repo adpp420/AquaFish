@@ -2,26 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        >
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/printer"
+            android:textStyle="bold"
+            android:layout_weight="2"
+            android:layout_marginRight="30dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/setting_bluetooth_select_txt"
+            android:background="@drawable/search_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:text="@string/select_printer"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/setting_printer_test_btn"
+            android:layout_weight="2.1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test"
+
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/app_version"
-            android:padding="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="2"
+            android:textStyle="bold"
             android:textSize="15sp" />
         <TextView
             android:id="@+id/setting_app_version_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:padding="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="0.0"
             android:textSize="15sp" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/setting_image_view"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"/>
 
 </LinearLayout>
