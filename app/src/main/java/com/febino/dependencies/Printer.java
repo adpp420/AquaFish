@@ -272,94 +272,32 @@ public class Printer {
 
 
     public void printReceipt(){
-
-
-
                 try {
 
                     connectPrinter();
-
-
-
-
                     if(btSocket != null) {
 
 
-//                        String currentDate;
-//                        if(isTimeFormat24hr)
-//                            currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
-//                        else
-//                            currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault()).format(new Date());
-
-                        String companyName = "S.M.K. FISH CENTRE";
-//                        printTamilText(companyName,50);
-
-                        printCustom(companyName,3,1);
-
-                        String companyQuote = "மீன் மொத்தம் மற்றும் சில்லரை வியாபாரம்";
-                        printTamilText(companyQuote,25);
-
-                        String shop1 = "கடை 1 : 810/821, மேட்டுர் பாலம் , ATRIUM ஹோட்டல் அருகில், ஈரோடு - 638009.";
-                        printTamilText(shop1,15);
-
-                        String shop2 = "கடை 2 : கேர் 24 ஹாஸ்பிடல் அருகில், அம்மன் நகர், பெருந்துறை ரோடு, ஈரோடு - 9.";
-                        printTamilText(shop2,15);
-
-                        String phone1 = "S முருகன்  - 97877 37270, 94422 87270";
-                        printTamilText(phone1,20);
-
-                        String phone2 = "M கலைவாணி - 98659 37270, 81440 87270";
-                        printTamilText(phone2,20);
-
-                        String phone3 = "T முருகேசன் - 90803 46466, 91714 22312";
-                        printTamilText(phone3,20);
-
-
-//                        String phone3 = "T முருகேசன் - 90803 46466, 91714 22312";
-//                        printTamilText(phone3,20);
-
-                        printCustom(new String(new char[64]).replace("\0", "-"),0,1);
-                        printTamilText("காமராஜ்  - 004",25);
-                        printCustom("Bill No   : 10",1,0);
-                        printCustom("Bill Date : 20-05-2025",1,0);
-
-
-                        printCustom(new String(new char[64]).replace("\0", "-"),0,1);
-//                        printCustom("   Date        Breed        Box     Kg     Rate         Amount  ",0,1);
-                        printTamilText("  Date        Breed              Box      Kg         Rate        Amount",22);
-                        printCustom(new String(new char[64]).replace("\0", "-"),0,1);
-
-                        for(int i=0;i<5;i++){
-                            printTamilText("20-05-2025        Breed        10       20.0     50.0        18500.00",22);
-//                            printCustom("20-05-2025     Breed        10     20.0    50.0          18500.0",0,1);
-                        }
-
-                        printCustom(new String(new char[64]).replace("\0", " "),0,1);
-
-                        for(int i=0;i<5;i++){
-                            printTamilText("20-05-2025      Breed         10     20.0      50.0         18500.00",22);
-//                            printCustom("20-05-2025     Breed        10     20.0    50.0          18500.0",0,1);
-                        }
+                        String currentDate;
+                        if(isTimeFormat24hr)
+                            currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
+                        else
+                            currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault()).format(new Date());
 
                         printCustom(new String(new char[64]).replace("\0", "-"),0,1);
 
+                        printCustom(alignLabelValue("Date",currentDate),0,1);
+                        printNewLine();
+                        printNewLine();
+                        printCompanyHeader();
 
 
+                        printNewLine();
+                        printNewLine();
+                        printNewLine();
 
-//                        printCustom(alignLabelValue("Date",currentDate),0,1);
-//                        printCustom(new String(new char[42]).replace("\0", "-"),0,1);
-//
-//                        printText();
-                        printNewLine();
-                        printNewLine();
-                        printNewLine();
-                        printNewLine();
-                        printNewLine();
-//
-//
-//
                         fullCut();
-//                        halfCut();
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -1218,6 +1156,9 @@ public class Printer {
     }
 
     private void connectPrinter() throws IOException {
+        if (btSocket != null && btSocket.isConnected()) {
+            return;
+        }
         disconnectPrinter();
         device = bluetoothAdapter.getRemoteDevice(printerAddress);
         btSocket = createBluetoothSocket(device);
@@ -1228,7 +1169,9 @@ public class Printer {
     private void disconnectPrinter(){
         try {
             if(btSocket != null)
+                if(outputStream != null) outputStream.close();
                 btSocket.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

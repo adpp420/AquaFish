@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
         stockFragment = new StockFragment();
         settingFragment = new SettingFragment();
 
-        bottomNavigationView.setSelectedItemId(R.id.action_setting);
-        openFragment(settingFragment);
+        bottomNavigationView.setSelectedItemId(R.id.action_order);
+        openFragment(orderFragment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
