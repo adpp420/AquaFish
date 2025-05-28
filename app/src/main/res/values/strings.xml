@@ -126,9 +126,16 @@
     <string name="select_date">Select Date</string>
 <!--    <string name="share">Share</string>-->
 
-    <string name="spf_tank">S.P.F. டேங்க் மீன், ஈரோடு</string>
-    <string name="sale_items">லோகு, கட்லா, ௫பா, பங்காஸ், ஜிலேபி, அனைத்து வகை மீன் வியாபாரம்</string>
-    <string name="phone_number">Ph: 9952483992</string>
+<!--    <string name="spf_tank">S.P.F. டேங்க் மீன், ஈரோடு</string>-->
+<!--    <string name="sale_items">லோகு, கட்லா, ௫பா, பங்காஸ், ஜிலேபி, அனைத்து வகை மீன் வியாபாரம்</string>-->
+<!--    <string name="phone_number">Ph: 9952483992</string>-->
+
+    <string name="smk_tank">S.M.K. FISH CENTRE</string>
+    <string name="sale_items">மீன் மொத்தம் மற்றும் சில்லரை வியாபாரம்</string>
+    <string name="sale_items_2">கடை 1 :810/821, மேட்டுர் பாலம், ATRIUM ஹோட்டல் அருகில், ஈரோடு - 638009</string>
+    <string name="sale_items_3">கடை 2 :கேர் 24 ஹாஸ்பிடல் அருகில், அம்மன் நகர், பெருந்துறை ரோடு, ஈரோடு - 9</string>
+    <string name="phone_number">S முருகன்  - 97877 37270, 94422 87270</string>
+    <string name="phone_number_2">M கலைவாணி - 98659 37270, 81440 87270</string>
 
     <string name="order_added_to_bill">Bill generated to this Order. Bill_No_</string>
 
