@@ -201,7 +201,7 @@ public class Printer {
 //                    printTamilText("20-05-2025        Breed        10       20.0     50.0        18500.00",22);
 //                    printCustom("20-05-2025     Breed        10     20.0    50.0          18500.0",0,1);
 
-                    float amount = (orderDetails.getTotalKG()+(orderDetails.getTotalBox()*35))*orderDetails.getKgPerBox();
+                    float amount = (orderDetails.getTotalKG()+(orderDetails.getTotalBox()*35))*orderDetails.getRatePerKG();
 
                     String changedDate = " ";
                     if (!savedDate.equals(orderDetails.getOrderDate())) {

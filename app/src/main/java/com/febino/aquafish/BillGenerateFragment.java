@@ -210,12 +210,12 @@ public class BillGenerateFragment extends Fragment {
 
 
 
-//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-//                if (bottomSheet != null) {
-//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-//                    behavior.setDraggable(false);
-//                    behavior.setHideable(false);
-//                }
+                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                if (bottomSheet != null) {
+                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+                    behavior.setDraggable(false);
+                    behavior.setHideable(false);
+                }
 
 
                 BillTraderSelectAdapter billTraderSelectAdapter = new BillTraderSelectAdapter(traderDetailsArrayList,getContext());
@@ -547,12 +547,13 @@ public class BillGenerateFragment extends Fragment {
                 bottomSheetDialog.setContentView(v);
 
 
-//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-//                if (bottomSheet != null) {
-//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-//                    behavior.setDraggable(false);
-//                    behavior.setHideable(false);
-//                }
+                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                if (bottomSheet != null) {
+                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+                    behavior.setDraggable(false);
+                    behavior.setHideable(false);
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
 
                 DataBaseManager db = new DataBaseManager(getContext());
                 CopyCursor cc = new CopyCursor();

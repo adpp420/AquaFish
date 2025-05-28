@@ -91,13 +91,13 @@ public class TraderFragment extends Fragment {
 
                 bottomSheetDialog.setContentView(v);
 
-//
-//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-//                if (bottomSheet != null) {
-//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-//                    behavior.setDraggable(false);
-//                    behavior.setHideable(false);
-//                }
+
+                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                if (bottomSheet != null) {
+                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+                    behavior.setDraggable(false);
+                    behavior.setHideable(false);
+                }
 
                 bottomSheetDialog.show();
 
@@ -206,12 +206,12 @@ public class TraderFragment extends Fragment {
                 warningDialogButtom.show();
 
 
-//                FrameLayout bottomSheet = warningDialogButtom.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-//                if (bottomSheet != null) {
-//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-//                    behavior.setDraggable(false);
-//                    behavior.setHideable(false);
-//                }
+                FrameLayout bottomSheet = warningDialogButtom.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                if (bottomSheet != null) {
+                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+                    behavior.setDraggable(false);
+                    behavior.setHideable(false);
+                }
 
 //                AlertDialog.Builder warningAlertDialogBuilder = new AlertDialog.Builder(view.getContext());
 //                warningAlertDialogBuilder.setView(warningDialogLayout);
@@ -256,12 +256,12 @@ public class TraderFragment extends Fragment {
 
                 bottomSheetDialog.setContentView(v);
 
-//                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-//                if (bottomSheet != null) {
-//                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
-//                    behavior.setDraggable(false);
-//                    behavior.setHideable(false);
-//                }
+                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                if (bottomSheet != null) {
+                    BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+                    behavior.setDraggable(false);
+                    behavior.setHideable(false);
+                }
 
                 Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/unicode.futurab.ttf");
                 TextView dialogHeader = v.findViewById(R.id.trader_header_textview);
