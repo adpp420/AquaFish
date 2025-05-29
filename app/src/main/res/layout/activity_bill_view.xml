@@ -9,14 +9,14 @@
         android:id="@+id/bill_view_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".15"
+        android:layout_weight=".1"
         android:background="@color/grey"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:layout_weight="1.36"
             >
 
@@ -26,10 +26,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                android:text="@string/spf_tank"
+                android:text="@string/smk_tank"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp"
-                android:layout_marginBottom="5dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,22 +37,58 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spf_tank_fish_head"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="5dp"
+
                 android:text="@string/sale_items"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="11sp"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sale_item_2_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sale_item_head"
+
+                android:layout_centerInParent="true"
+                android:text="@string/sale_items_2"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/sale_item_3_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sale_item_2_head"
+                android:layout_centerInParent="true"
+                android:text="@string/sale_items_3"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/phone_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sale_item_3_head"
+                android:layout_centerInParent="true"
+                android:text="@string/phone_number"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="9sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sale_item_head"
+                android:layout_below="@+id/phone_head"
                 android:layout_centerInParent="true"
-                android:text="@string/phone_number"
+                android:text="@string/phone_number_2"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="11sp"
+                android:textSize="9sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 

@@ -1067,7 +1067,7 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
 
         // Draw Head and Subhead
         float centerX = tableWidth / 2f;
-        canvas.drawText("S.P.F. டேங்க் மீன், ஈரோடு", centerX, 100, headPaint);
+        canvas.drawText("S.M.K FISH CENTRE", centerX, 100, headPaint);
         canvas.drawText("Date : "+date, centerX, 200, subHeadPaint);
 
         // Border paint
