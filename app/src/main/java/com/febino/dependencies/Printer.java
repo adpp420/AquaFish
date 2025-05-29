@@ -145,24 +145,25 @@ public class Printer {
 
     private void printCompanyHeader() throws IOException {
 
-        String companyName = "S.M.K. FISH CENTRE";
+//        String companyName = "S.M.K. FISH CENTRE";
+        String companyName = "S.P.F. டேங்க் மீன், ஈரோடு";
 //                        printTamilText(companyName,50);
         printCustom(companyName,3,1);
 
-        String companyQuote = "மீன் மொத்தம் மற்றும் சில்லரை வியாபாரம்";
+        String companyQuote = "லோகு, கட்லா, ௫பா, பங்காஸ், ஜிலேபி, அனைத்து வகை மீன் வியாபாரம்";
         printTamilText(companyQuote,25);
 
-        String shop1 = "கடை 1 :810/821, மேட்டுர் பாலம், ATRIUM ஹோட்டல் அருகில், ஈரோடு - 638009";
-        printTamilText(shop1,15);
+//        String shop1 = "கடை 1 :810/821, மேட்டுர் பாலம், ATRIUM ஹோட்டல் அருகில், ஈரோடு - 638009";
+//        printTamilText(shop1,15);
+//
+//        String shop2 = "கடை 2 :கேர் 24 ஹாஸ்பிடல் அருகில், அம்மன் நகர், பெருந்துறை ரோடு, ஈரோடு - 9";
+//        printTamilText(shop2,15);
 
-        String shop2 = "கடை 2 :கேர் 24 ஹாஸ்பிடல் அருகில், அம்மன் நகர், பெருந்துறை ரோடு, ஈரோடு - 9";
-        printTamilText(shop2,15);
-
-        String phone1 = "S முருகன்  - 97877 37270, 94422 87270";
+        String phone1 = "Ph: 9952483992";
         printTamilText(phone1,20);
 
-        String phone2 = "M கலைவாணி - 98659 37270, 81440 87270";
-        printTamilText(phone2,20);
+//        String phone2 = "M கலைவாணி - 98659 37270, 81440 87270";
+//        printTamilText(phone2,20);
 
 //        String phone3 = "T முருகேசன் - 90803 46466, 91714 22312";
 //        printTamilText(phone3,20);

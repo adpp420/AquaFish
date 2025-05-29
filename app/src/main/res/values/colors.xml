@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <color name="colorPrimary">#0095ff</color>
-<!--        <color name="colorPrimary">#967CB6</color>-->
+<!--        <color name="colorPrimary">#0095ff</color>-->
+        <color name="colorPrimary">#967CB6</color>
     <!--    <color name="colorPrimary">#FF7F00</color>-->
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="white">#FFFFFF</color>
-    <color name="colorSecondary">#89ceff</color>
-<!--    <color name="colorSecondary">#DFC5FE</color>-->
+<!--    <color name="colorSecondary">#89ceff</color>-->
+    <color name="colorSecondary">#DFC5FE</color>
 <!--    <color name="colorSecondary">#F8A551</color>-->
     <color name="grey">#EBEBEB</color>
     <color name="colorShadow">#4A000000</color>
