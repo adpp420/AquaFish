@@ -3,7 +3,14 @@ package com.febino.aquafish;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,11 +41,16 @@ import com.febino.validation.ValidateDetails;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -985,4 +997,165 @@ public class OrderTableFragment extends Fragment implements HorizontalScroll.Scr
 //            addColumnToTableAtD(pos, value);
         }
     }
+
+
+
+    public void shareBitmap(Bitmap bitmap) {
+        try {
+            // Save bitmap to cache
+            File cachePath = new File(getContext().getCacheDir(), "images");
+            cachePath.mkdirs();
+            File file = new File(cachePath, "shared_grid.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+            // Get URI via FileProvider
+            Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", file);
+
+            // Share Intent
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/png");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share Grid Image"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public Bitmap createGridImage(String date) {
+        int headerRows = 1; // For product header
+        int totalRow = 1;   // For "Total"
+        int rows = traderDetailsArrayList.size() + headerRows + totalRow;
+        int cols = productDetailsArrayList.size() + 1; // +1 for name column
+
+        int cellWidth = 220;
+        int firstColWidth = cellWidth * 2;
+        int cellHeight = 150;
+
+        int tableWidth = firstColWidth + (cols - 1) * cellWidth;
+        int tableHeight = rows * cellHeight;
+
+        int titleHeight = 300;
+        int totalHeight = tableHeight + titleHeight;
+
+        float totalBoxKgArray[][] = new float[productDetailsArrayList.size()][2];
+
+        Bitmap bitmap = Bitmap.createBitmap(tableWidth, totalHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        // Background
+        Paint bgPaint = new Paint();
+        bgPaint.setColor(Color.WHITE);
+        canvas.drawRect(0, 0, tableWidth, totalHeight, bgPaint);
+
+        // Title Paints
+        Paint headPaint = new Paint();
+        headPaint.setColor(Color.BLACK);
+        headPaint.setTextSize(70);
+        headPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        headPaint.setTextAlign(Paint.Align.CENTER);
+
+        Paint subHeadPaint = new Paint();
+        subHeadPaint.setColor(Color.DKGRAY);
+        subHeadPaint.setTextSize(50);
+        subHeadPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+        subHeadPaint.setTextAlign(Paint.Align.CENTER);
+
+        // Draw Head and Subhead
+        float centerX = tableWidth / 2f;
+        canvas.drawText("S.P.F. டேங்க் மீன், ஈரோடு", centerX, 100, headPaint);
+        canvas.drawText("Date : "+date, centerX, 200, subHeadPaint);
+
+        // Border paint
+        Paint borderPaint = new Paint();
+        borderPaint.setColor(Color.BLACK);
+        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setStrokeWidth(2);
+
+        // Text paint
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(30);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
+        Paint boldTextPaint = new Paint(textPaint);
+        boldTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+        for (int row = 0; row < rows; row++) {
+            int top = titleHeight + row * cellHeight;
+            int bottom = top + cellHeight;
+
+            int left = 0;
+            for (int col = 0; col < cols; col++) {
+                int currentCellWidth = (col == 0) ? firstColWidth : cellWidth;
+                int right = left + currentCellWidth;
+
+                // Draw cell border
+                canvas.drawRect(left, top, right, bottom, borderPaint);
+
+                // Determine cell text
+                String text;
+                String text2 = "";
+                if (row == 0 && col == 0) {
+                    text = "Name\\Product";
+                } else if (row == 0) {
+                    text = productDetailsArrayList.get(col - 1).productName;
+                } else if (row == rows - 1 && col == 0) {
+                    text = "Total";
+                } else if (row == rows - 1) {
+                    // You can replace this with actual total values if needed
+//                    text = "T" + col;
+                    text = (int) totalBoxKgArray[col-1][0] + " Box";
+                    text2 = totalBoxKgArray[col-1][1] +" Kgs";
+
+                } else if (col == 0) {
+                    text = traderDetailsArrayList.get(row - 1).name;
+                } else {
+
+                    OrderDetails orderDetails = orderDetailsArrayListArray.get(row - 1).get(col - 1);
+
+                    if(orderDetails.getTotalKG() == 0 && orderDetails.getTotalBox() == 0 && orderDetails.getRatePerKG() == 0)
+                        text = "";
+                    else{
+                        text = orderDetails.getTotalBox() + " Box";
+                        text2 = orderDetails.getTotalKG() +" Kgs";
+
+                        totalBoxKgArray[col-1][0] += orderDetails.getTotalBox();
+                        totalBoxKgArray[col-1][1] += orderDetails.getTotalKG();
+
+                    }
+
+                }
+
+                // Choose paint
+                boolean isHeader = (row == 0 || col == 0 || row == rows - 1);
+                Paint paintToUse = isHeader ? boldTextPaint : textPaint;
+
+                // Draw text
+                float x = left + currentCellWidth / 2f;
+                float y = top + cellHeight / 2f - ((paintToUse.descent() + paintToUse.ascent()) / 2);
+
+                if(!text2.equals("")) {
+                    canvas.drawText(text, x, y - 20, paintToUse);
+                    canvas.drawText(text2, x, y + 20, paintToUse);
+                }else{
+                    canvas.drawText(text, x, y, paintToUse);
+                }
+
+
+                left = right;
+            }
+        }
+
+        return bitmap;
+    }
+
+
+
+
+
 }

@@ -3,6 +3,10 @@ package com.febino.aquafish;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -16,17 +20,25 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.febino.aquafish.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -42,6 +54,8 @@ public class OrderFragment extends Fragment {
     SimpleDateFormat simpleDateFormat;
 
     Calendar mcurrentDate;
+
+    Button orderShareBtn;
 
     Calendar calendarEditTextDate;
     OrderTableFragment orderTableFragment;
@@ -83,9 +97,23 @@ public class OrderFragment extends Fragment {
         rightArrow = view.findViewById(R.id.order_table_right_arrow);
         leftArrow = view.findViewById(R.id.order_table_left_arrow);
 
+        orderShareBtn = view.findViewById(R.id.order_share_btn);
+
 
 
         dateEditText.setText(simpleDateFormat.format(calendarEditTextDate.getTime()));
+
+        orderShareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String currentTime = simpleDateFormat.format(calendarEditTextDate.getTime())+ " " +getCurrentTime12HrFormat();
+
+                Bitmap orderGridImage = orderTableFragment.createGridImage(currentTime);
+
+                orderTableFragment.shareBitmap(orderGridImage);
+            }
+        });
 
         dateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,6 +243,10 @@ public class OrderFragment extends Fragment {
 
         return view;
     }
+    public static String getCurrentTime12HrFormat() {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        return sdf.format(new Date());
+    }
 
     public void updateFragment(String selectedDate){
         orderTableFragment.updateSelectedDate(selectedDate);
@@ -236,4 +268,6 @@ public class OrderFragment extends Fragment {
         tableTabBtn.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
         listTabBtn.setTextColor(getContext().getResources().getColor(R.color.white));
     }
+
+
 }
